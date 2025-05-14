@@ -3,11 +3,11 @@ package com.membershipClub.MembershipClub.domain;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity(name = "payments")
@@ -20,17 +20,23 @@ public class Payment {
     private Double price;
     private LocalDateTime date;
 
-    @Enumerated(EnumType.STRING)
-    private UserStatus userStatus;
+    @ManyToOne
+    @JoinColumn(name = "paid_id")
+    private User paid;
+
+    @ManyToOne
+    @JoinColumn(name = "delay_id")
+    private User delay;
 
     public Payment() {
     }
 
-    public Payment(Long id, Double price, LocalDateTime date, UserStatus userStatus) {
+    public Payment(Long id, Double price, LocalDateTime date, User paid ,User delay) {
         this.id = id;
         this.price = price;
         this.date = date;
-        this.userStatus = userStatus;
+        this.paid = paid;
+        this.delay = delay;
     }
 
     public Long getId() {
@@ -57,12 +63,20 @@ public class Payment {
         this.date = date;
     }
 
-    public UserStatus getUserStatus() {
-        return userStatus;
+    public User getPaid() {
+        return paid;
     }
 
-    public void setUserStatus(UserStatus userStatus) {
-        this.userStatus = userStatus;
+    public void setPaid(User paid) {
+        this.paid = paid;
+    }
+
+    public User getDelay() {
+        return delay;
+    }
+
+    public void setDelay(User delay) {
+        this.delay = delay;
     }
 
     @Override
@@ -89,6 +103,8 @@ public class Payment {
             return false;
         return true;
     }
+
+
 
     
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.membershipClub.MembershipClub.domain.User;
+import com.membershipClub.MembershipClub.domain.UserStatus;
 import com.membershipClub.MembershipClub.dtos.UserDTO;
 import com.membershipClub.MembershipClub.repositories.UserRepository;
 import com.membershipClub.MembershipClub.service.exception.InvalidUserException;
@@ -32,6 +33,12 @@ public class UserService {
 
     public void saveUser(User user){
         this.userRepository.save(user);
+    }
+
+    public void validatePayment(User paid, Double price) throws Exception {
+        if(paid.getUserStatus() == UserStatus.DELAY){
+            throw new Exception("Usuário com pagamento em atraso, efetue o pagamento");
+        }
     }
 
    
